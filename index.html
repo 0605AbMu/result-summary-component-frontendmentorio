@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- displays site properly based on user's device -->
+
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="./assets/images/favicon-32x32.png"
+    />
+
+    <link rel="stylesheet" href="./style.css" />
+
+    <title>Frontend Mentor | Results summary component</title>
+
+    <!-- Feel free to remove these styles or customise in your own stylesheet 👍 -->
+    <style>
+      .attribution {
+        font-size: 11px;
+        text-align: center;
+      }
+      .attribution a {
+        color: hsl(228, 45%, 44%);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="result_board">
+        <div class="result">
+          <h2 class="result_text">Your Result</h2>
+          <span class="score">
+            <p class="score_main">76</p>
+            <p class="score_secondary">of 100</p>
+          </span>
+          <div class="bottom">
+            <h1>Great</h1>
+            <p>
+              You scored higher than 65% of the people who have taken these
+              tests.
+            </p>
+          </div>
+        </div>
+        <div class="summary">
+          <div class="block">
+            <h2>Summary</h2>
+            <div id="summary-items" class="summary-items">
+              <!-- <div class="item">
+                <div
+                  class="title"
+                  style="display: flex; align-items: center; column-gap: 15px"
+                >
+                  <img src="./assets/images/icon-verbal.svg" alt="" />
+                  <span>Verbal</span>
+                </div>
+                <div class="score-text"><span>61</span>&nbsp;/&nbsp;100</div>
+              </div> -->
+            </div>
+            <button type="button">Continue</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    Reaction 80 / 100 Memory 92 / 100 Verbal 61 / 100 Visual 72 / 100
+
+    <div class="attribution">
+      Challenge by
+      <a href="https://www.frontendmentor.io?ref=challenge" target="_blank"
+        >Frontend Mentor</a
+      >. Coded by <a href="#">Your Name Here</a>.
+    </div>
+
+    <script>
+      const summaryBoard = document.getElementById("summary-items");
+
+      const categoryPrimaryColors = {
+        REACTION: "--primary-light-red",
+        MEMORY: "--primary-orangey-yellow",
+        VERBAL: "--primary-green-teal",
+        VISUAL: "--primary-cobalt-blue",
+      };
+
+      const categoryBgColors = {
+        REACTION: "--bg-light-red",
+        MEMORY: "--bg-orangey-yellow",
+        VERBAL: "--bg-green-teal",
+        VISUAL: "--bg-cobalt-blue",
+      };
+
+      const resolvePrimaryColorByCategory = (category) => {
+        return categoryPrimaryColors[category.toUpperCase()];
+      };
+
+      const resolveBgColorByCategory = (category) => {
+        return categoryBgColors[category.toUpperCase()];
+      };
+
+      fetch("data.json")
+        .then((res) => res.json())
+        .then((data) => {
+          Array.from(data).forEach((x) => {
+            summaryBoard.innerHTML += `
+            <div class="item" style="background-color: var(${resolveBgColorByCategory(
+              x.category
+            )})">
+              <div
+              class="title"
+              style="display: flex; align-items: center; column-gap: 15px"
+              >
+              <img src="${x.icon}" alt="" />
+              <span style="color: var(${resolvePrimaryColorByCategory(
+                x.category
+              )})">${x.category}</span>
+              </div>
+              <div class="score-text"><span>${x.score}</span>
+              <span style="color: hsl(225, 18%, 50%)">
+                &nbsp;/&nbsp;100
+              </span>
+              </div>
+              </div>
+              `;
+          });
+        })
+        .catch((e) => alert("Resource couldn't load!"));
+    </script>
+  </body>
+</html>
